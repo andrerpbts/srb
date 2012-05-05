@@ -1,0 +1,47 @@
+<%= form_for(@banner) do |f| %>
+  <% if @banner.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@banner.errors.count, "error") %> prohibited this banner from being saved:</h2>
+
+      <ul>
+      <% @banner.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :banner %><br />
+    <%= f.text_field :banner %>
+  </div>
+
+  <div class="field">
+    <%= f.label :width %><br />
+    <%= f.text_field :width %>
+  </div>
+
+  <div class="field">
+    <%= f.label :height %><br />
+    <%= f.text_field :height %>
+  </div>
+
+  <div class="field">
+  <%= f.fields_for :images do |i| %>
+	<% if i.object.new_record? %>
+      <p><%= i.file_field :sponsor %></p>
+      <% end %>
+  <% end %>
+  </div>
+
+  <%= f.fields_for :images do |i| %>
+    <% unless i.object.new_record? %>
+	  <%= link_to image_tag(i.object.sponsor.url(:thumb)), i.object.sponsor.url(:original) %>
+	  <%= i.check_box :_destroy %>
+	<% end %>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
