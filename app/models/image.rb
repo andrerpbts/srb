@@ -1,12 +1,14 @@
 class Image < ActiveRecord::Base
   belongs_to :banner
-  attr_accessible :sponsor
+  attr_accessible :sponsor, :width, :height 
   
   attr_accessor :width, :height 
   
-  has_attached_file :sponsor, :styles => lambda { |attachment| 
-    image = attachment.instance
-    dimensions = "#{image.width}x#{image.height}#"
-    { :thumb => dimensions}
-  }
+  has_attached_file :sponsor, 
+                    :styles => lambda { |image| 
+                      {
+                         :thumb => "#{image.instance.width}x#{image.instance.height}#"
+                      }
+                    }
+
 end

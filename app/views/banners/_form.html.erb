@@ -28,17 +28,20 @@
 
   <div class="field">
   <%= f.fields_for :images do |i| %>
-	<% if i.object.new_record? %>
+  	<% if i.object.new_record? %>
+      <% for attribute in [:width, :height] %>
+        <%= i.hidden_field attribute, :value => @banner.send(attribute), :id => attribute %>
+      <% end %>  
       <p><%= i.file_field :sponsor %></p>
-      <% end %>
+    <% end %>
   <% end %>
   </div>
 
   <%= f.fields_for :images do |i| %>
     <% unless i.object.new_record? %>
-	  <%= link_to image_tag(i.object.sponsor.url(:thumb)), i.object.sponsor.url(:original) %>
-	  <%= i.check_box :_destroy %>
-	<% end %>
+      <%= link_to image_tag(i.object.sponsor.url(:thumb)), i.object.sponsor.url(:original) %>
+      <%= i.check_box :_destroy %>
+	  <% end %>
   <% end %>
 
   <div class="actions">
